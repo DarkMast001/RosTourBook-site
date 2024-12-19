@@ -13,6 +13,7 @@ body {
 
 .header {
 	width: 70%;
+	position: relative;
 	margin: 0 auto;
 	color: white;
 	display: flex;
@@ -78,8 +79,54 @@ body {
 	background-color: #5d8cbd;
 }
 
+.header_btn.filter:hover {
+	background-color: #466a91;
+}
+
+.filter_popup {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	margin-left: 1%;
+	margin-top: 5px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	width: 180px;
+	padding: 15px;
+
+	opacity: 0;
+	transform: translateY(-10px);
+	pointer-events: none;
+	transition: opacity 0.3s, transform 0.3s;
+	z-index: 10;
+}
+
+.filter_popup.active {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+}
+
+.filter_option {
+	font-family: "Roboto", sans-serif;
+	color: black;
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+
+input[type="radio"] {
+	margin-right: 10px;
+}
+
 .header_btn.find {
 	background-color: rgb(29, 29, 29);
+}
+
+.header_btn.find:hover {
+	background-color: rgb(58, 58, 58);
 }
 
 .btn_text {
@@ -182,6 +229,12 @@ body {
 	}
 }
 
+@media (min-width: 1900px){
+	.SEO_text {
+		width: 1325px;
+	}
+}
+
 @media (max-width: 760px){
 	.not_found_dialog p {
 		font-size: 20px;
@@ -205,6 +258,29 @@ body {
 /*----------------------*/
 
 .footer {
-	height: 100px;
+	display: flex;
+	align-items: center;
+	height: 50px;
 	background-color: black;
+}
+
+.footer_div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 70%;
+	margin: 0 auto;
+}
+
+.footer_div p {
+	font-family: "Roboto", sans-serif;
+	color: white;
+	margin-block-start: 5px;
+	margin-block-end: 5px;
+}
+
+.footer_div img {
+	background-color: white;
+	border-radius: 50%;
+	cursor: pointer;
 }

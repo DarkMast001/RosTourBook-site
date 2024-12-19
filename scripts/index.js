@@ -5,6 +5,12 @@ const seoText = document.getElementById('seoText');
 const mainPart = document.getElementById('mainPart');
 const notFoundDialog = document.getElementById('notFoundDialog');
 
+const btnFilter = document.getElementById('btnFilter');
+const filterPopup = document.getElementById('filterPopup');
+const radioButtons = document.querySelectorAll('input[name="searchFilter"]');
+
+let filterType = 'region';
+
 function hideAllSections() {
 	seoText.style.display = 'none';
 	mainPart.style.display = 'none';
@@ -19,29 +25,32 @@ function showSection(sectionId) {
 	}
 }
 
-// Функция для поиска отелей по региону
-async function searchHotels(region) {
+async function searchResponse(search, filter) {
 	try {
-	  	// Выполняем запрос на сервер для поиска отелей по введенному региону
-	  	const response = await fetch(`http://localhost:3000/search?region=${encodeURIComponent(region)}`);
-	  
-	  	// Проверка успешности запроса
-	  	if (!response.ok) {
-			throw new Error('Ошибка при выполнении запроса');
-	  	}
-  
-	  	const hotels = await response.json();
-	  
-	  	if (hotels.length > 0) {
-			showSection('mainPart');
-			renderHotels(hotels);
-		} else {
-			showSection('notFoundDialog')
+		if (filter == 'region') {
+			var response = await fetch(`http://localhost:3000/searchByRegion?region=${encodeURIComponent(search)}`);
 		}
-	} catch (error) {
-		console.error('Ошибка при поиске отелей:', error);
-		showSection('notFoundDialog');
-	}
+		else if (filter == 'city') {
+			var response = await fetch(`http://localhost:3000/searchByCity?city=${encodeURIComponent(search)}`);
+		}
+	
+		// Проверка успешности запроса
+		if (!response.ok) {
+		  throw new Error('Ошибка при выполнении запроса');
+		}
+
+		const hotels = await response.json();
+	
+		if (hotels.length > 0) {
+		  showSection('mainPart');
+		  renderHotels(hotels);
+	  } else {
+		  showSection('notFoundDialog')
+	  }
+  } catch (error) {
+	  console.error('Ошибка при поиске отелей:', error);
+	  showSection('notFoundDialog');
+  }
 }
 
 function renderHotels(hotels) {
@@ -70,26 +79,44 @@ function renderHotels(hotels) {
 	});
 }
 
-searchButton.addEventListener('click', () => {
-	const region = inputField.value.trim(); // Получаем значение из поля ввода и удаляем лишние пробелы
-  
-	if (region) {
-	  	searchHotels(region);
+btnFilter.addEventListener('click', (event) => {
+	event.preventDefault(); // Чтобы не было перехода по ссылке или перезагрузки
+	filterPopup.classList.toggle('active'); // Включаем/выключаем видимость фильтров
+});
+
+document.addEventListener('click', (event) => {
+	if (!btnFilter.contains(event.target) && !filterPopup.contains(event.target)) {
+		filterPopup.classList.remove('active');
+	}
+});
+
+radioButtons.forEach(radio => {
+	radio.addEventListener('change', (event) => {
+	  	filterType = event.target.value;
+	  	// console.log('Текущий фильтр:', filterType);
+	});
+});
+
+function searchCondition(searchStr){
+	if (searchStr) {
+		searchResponse(searchStr, filterType);
 	} else {
 	  	console.log('Введите регион для поиска');
 	}
+}
+
+searchButton.addEventListener('click', () => {
+	const searchStr = inputField.value.trim(); // Получаем значение из поля ввода и удаляем лишние пробелы
+  
+	searchCondition(searchStr);
 });
 
 inputField.addEventListener('keydown', (event) => {
 	if (event.key === 'Enter') {
 		event.preventDefault();
-		const region = inputField.value.trim();
+		const searchStr = inputField.value.trim();
 
-        if (region) {
-			searchHotels(region);
-		} else {
-			console.log('Введите регион для поиска');
-		}
+        searchCondition(searchStr);
 	}
 });
 

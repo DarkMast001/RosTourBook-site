@@ -13,17 +13,25 @@
 			<img src="images/LOGO_black.svg" alt="Логотип">
 		</div>
 		<form action="" class="search_form">
-			<input type="text" placeholder="Регион для поиска" class="input_place" name="" id="inputPlace">
+			<input type="text" placeholder="Поиск" class="input_place" name="" id="inputPlace">
 			<img src="images/search.svg" alt="иконка поиска" class="search_icon">
 		</form>
 		<div class="btn_div">
-			<button class="header_btn filter" id="">
+			<button class="header_btn filter" id="btnFilter">
 				<span class="btn_text">Фильтры</span>
 			</button>
 			<button class="header_btn find" id="btnFind">
 				<span class="btn_text">Найти</span>
 			</button>
 		</div>
+		<div class="filter_popup" id="filterPopup">
+			<label class="filter_option">
+			  <input type="radio" name="searchFilter" value="region" checked> Поиск по региону
+			</label>
+			<label class="filter_option">
+			  <input type="radio" name="searchFilter" value="city"> Поиск по городу
+			</label>
+		  </div>
 	</header>
 	<main class="main">
 		<div class="SEO_text" id="seoText">
@@ -56,7 +64,10 @@
 		</div>
 	</main>
 	<footer class="footer">
-
+		<div class="footer_div">
+			<p>© 2024 РосТурБук. Все права защищены.</p>
+			<img src="images/github.svg" alt="ссылка на github" onclick="window.open('https://github.com/DarkMast001', '_blank')">
+		</div>
 	</footer>
 	<script src="scripts/index.js"></script>
 </body>

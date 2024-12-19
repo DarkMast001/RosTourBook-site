@@ -38,10 +38,21 @@ const HotelModel = mongoose.model('Hotel', hotelSchema);
 app.use(express.json());
 
 // Поиск отелей по региону
-app.get('/search', async (req, res) => {
+app.get('/searchByRegion', async (req, res) => {
   const region = req.query.region;
   try {
     const hotels = await HotelModel.find({ region: region }); // Найдем максимум 4 отеля
+    res.json(hotels);
+  } catch (err) {
+    res.status(500).send('Error searching hotels');
+  }
+});
+
+// Поиск отелей по городу
+app.get('/searchByCity', async (req, res) => {
+  const city = req.query.city;
+  try {
+    const hotels = await HotelModel.find({ city: city }); // Найдем максимум 4 отеля
     res.json(hotels);
   } catch (err) {
     res.status(500).send('Error searching hotels');
