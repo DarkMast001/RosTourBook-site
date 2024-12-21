@@ -71,7 +71,7 @@ function renderHotels(hotels) {
 		foundHotelSection.innerHTML = `
 			<p class="hotel_name">${hotel.name}</p>
 			<p class="hotel_addres">${hotel.adress}</p>
-			<a href="${hotel.web}" target="_blank"><p>Ссылка на сайт</p></a>
+			<a href="https://${hotel.web}" target="_blank"><p>Ссылка на сайт</p></a>
 			<p class="hotel_description">${hotel.description}</p>
 		`;
 
@@ -93,7 +93,6 @@ document.addEventListener('click', (event) => {
 radioButtons.forEach(radio => {
 	radio.addEventListener('change', (event) => {
 	  	filterType = event.target.value;
-	  	// console.log('Текущий фильтр:', filterType);
 	});
 });
 
